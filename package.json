@@ -1,0 +1,28 @@
+{
+  "name": "guiltyspark",
+  "version": "1.0.0",
+  "description": "Discord Solana NFT Monitor Bot",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stonks-Luma-Liberty/GuiltySpark.git"
+  },
+  "author": "Christian Perez Villanueva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stonks-Luma-Liberty/GuiltySpark/issues"
+  },
+  "homepage": "https://github.com/Stonks-Luma-Liberty/GuiltySpark#readme",
+  "dependencies": {
+    "@metaplex/js": "^4.12.0",
+    "@solana/web3.js": "^1.32.0",
+    "@supabase/supabase-js": "^1.29.4",
+    "axios": "^0.25.0",
+    "dotenv": "^14.3.2",
+    "winston": "^3.5.0"
+  }
+}
