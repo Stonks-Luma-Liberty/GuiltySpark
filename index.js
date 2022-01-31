@@ -87,10 +87,10 @@ const postSaleToDiscord = (title, tradeDirection, price, date, signature, imageU
 }
 
 const onAccountChangeCallBack = async (accountInfo, context) => {
-    console.log(accountInfo)
-    logger.info(`Account change detected for ${accountInfo.owner.toString()}`)
+    logger.info("Account change detected")
     const { slot } = context;
     let wallet = null
+    logger.info(`Slot: ${slot}`)
 
     logger.info("Retrieving block")
     let block = await connection.getBlock(slot);
@@ -104,39 +104,42 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
             wallet = publicKey
             return item;
         }
-    }).transaction;
+    })?.transaction;
 
-    const signature = transaction.signatures[0];
-    logger.info(`Getting transaction signature: ${signature}`)
+    if (transaction) {
+        logger.info("Transaction found")
+        const signature = transaction.signatures[0];
+        logger.info(`Getting transaction signature: ${signature}`)
 
-    const txn = await connection.getTransaction(signature);
-    const date = new Date(txn.blockTime * 1000).toLocaleString();
-    const { preBalances, postBalances, postTokenBalances } = txn.meta;
-    const price = Math.abs((preBalances[0] - postBalances[0])) / LAMPORTS_PER_SOL;
-    const mintToken = postTokenBalances[0]?.mint
+        const txn = await connection.getTransaction(signature);
+        const date = new Date(txn.blockTime * 1000).toLocaleString();
+        const { preBalances, postBalances, postTokenBalances } = txn.meta;
+        const price = Math.abs((preBalances[0] - postBalances[0])) / LAMPORTS_PER_SOL;
+        const mintToken = postTokenBalances[0]?.mint
 
-    if (mintToken) {
-        const tradeDirection = postTokenBalances[0].owner === wallet.toString() ? "Sold" : "Bought"
-        const { accountKeys } = txn.transaction.message;
-        const marketplaceAccount = accountKeys.at(-1).toString();
+        if (mintToken) {
+            const tradeDirection = postTokenBalances[0].owner === wallet.toString() ? "Sold" : "Bought"
+            const { accountKeys } = txn.transaction.message;
+            const marketplaceAccount = accountKeys.at(-1).toString();
 
-        for (const [key, value] of Object.entries(marketPlaces)) {
-            if (value.includes(marketplaceAccount)) {
-                const marketPlaceURL = marketPlaceURLs[key]
-                const metadata = await getMetaData(mintToken);
-                postSaleToDiscord(metadata.name, tradeDirection, price, date, signature, metadata.image)
-                console.log("-------------------------------------------")
-                console.log(`Sale at ${new Date(txn.blockTime * 1000).toLocaleString()} ---> ${tradeDirection} for ${price} SOL`)
-                console.log("Signature: ", signature)
-                console.log("Name: ", metadata.name)
-                console.log("Image: ", metadata.image)
-                console.log(`Marketplace: ${marketPlaceURL}/${mintToken}`)
-                console.log("-------------------------------------------")
+            for (const [key, value] of Object.entries(marketPlaces)) {
+                if (value.includes(marketplaceAccount)) {
+                    const marketPlaceURL = marketPlaceURLs[key]
+                    const metadata = await getMetaData(mintToken);
+                    postSaleToDiscord(metadata.name, tradeDirection, price, date, signature, metadata.image)
+                    console.log("-------------------------------------------")
+                    console.log(`Sale at ${new Date(txn.blockTime * 1000).toLocaleString()} ---> ${tradeDirection} for ${price} SOL`)
+                    console.log("Signature: ", signature)
+                    console.log("Name: ", metadata.name)
+                    console.log("Image: ", metadata.image)
+                    console.log(`Marketplace: ${marketPlaceURL}/${mintToken}`)
+                    console.log("-------------------------------------------")
+                }
             }
         }
-    }
-    else{
-        logger.info("Not an NFT transaction")
+        else {
+            logger.info("Not an NFT transaction")
+        }
     }
 
 };

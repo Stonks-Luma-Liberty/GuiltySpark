@@ -1,0 +1,11 @@
+version: "2"
+services:
+
+  guilty_spark_bot:
+    build: .
+    command: node index.js
+    volumes:
+      - .:/guilty_spark_bot
+      - /guilty_spark_bot/node_modules
+    ports:
+      - 3000:3000
