@@ -4,6 +4,7 @@ import { clusterApiUrl, Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/
 import { Connection as MetaplexConnection, programs } from '@metaplex/js';
 import axios from 'axios';
 import { createLogger, format, transports } from 'winston';
+import { postSaleToDiscord } from './discord.js'
 
 dotenv.config()
 
@@ -17,7 +18,7 @@ const myFormat = format.printf(({ level, message, timestamp }) => {
     return `${timestamp} [${level}]: ${message}`;
 });
 
-const logger = createLogger({
+export const logger = createLogger({
     format: format.combine(
         format.timestamp(),
         myFormat),
@@ -53,38 +54,6 @@ const getMetaData = async (tokenPubKey) => {
     }
 }
 
-const postSaleToDiscord = (title, tradeDirection, price, date, signature, imageURL) => {
-    logger.info("Posting sale info to discord");
-    axios.post(process.env.DISCORD_WEBHOOK_URL,
-        {
-            "embeds": [
-                {
-                    "title": `Sale`,
-                    "description": `${tradeDirection}:  ${title}`,
-                    "fields": [
-                        {
-                            "name": "Price",
-                            "value": `${price} SOL`,
-                            "inline": true
-                        },
-                        {
-                            "name": "Date",
-                            "value": `${date}`,
-                            "inline": true
-                        },
-                        {
-                            "name": "Explorer",
-                            "value": `https://explorer.solana.com/tx/${signature}`
-                        }
-                    ],
-                    "image": {
-                        "url": `${imageURL}`,
-                    }
-                }
-            ]
-        }
-    )
-}
 
 const onAccountChangeCallBack = async (accountInfo, context) => {
     logger.info("Account change detected")
@@ -93,32 +62,40 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
     logger.info(`Slot: ${slot}`)
 
     logger.info("Retrieving block")
-    let block = await connection.getBlock(slot);
-    const { transactions } = block;
 
-    logger.info("Searching transactions")
-    const transaction = transactions.find(item => {
-        const { accountKeys } = item.transaction.message;
-        let publicKey = accountKeys.find(publicKey => wallets.includes(publicKey.toString()));
-        if (publicKey) {
-            wallet = publicKey
-            return item;
-        }
-    })?.transaction;
+    try {
+        let block = await connection.getBlock(slot);
+        const { transactions } = block;
 
-    if (transaction) {
+        logger.info("Searching transactions")
+        const transaction = transactions.find(item => {
+            const { accountKeys } = item.transaction.message;
+            let publicKey = accountKeys.find(publicKey => wallets.includes(publicKey.toString()));
+            if (publicKey) {
+                wallet = publicKey
+                return item;
+            }
+        })?.transaction;
+
         logger.info("Transaction found")
         const signature = transaction.signatures[0];
         logger.info(`Getting transaction signature: ${signature}`)
 
         const txn = await connection.getTransaction(signature);
         const date = new Date(txn.blockTime * 1000).toLocaleString();
-        const { preBalances, postBalances, postTokenBalances } = txn.meta;
+        const { preBalances, postBalances, postTokenBalances, preTokenBalances } = txn.meta;
         const price = Math.abs((preBalances[0] - postBalances[0])) / LAMPORTS_PER_SOL;
         const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
-            const tradeDirection = postTokenBalances[0].owner === wallet.toString() ? "Sold" : "Bought"
+            let tradeDirection = ""
+
+            if (price < 0.009) {
+                tradeDirection = "Listed"
+            }
+            else {
+                tradeDirection = preTokenBalances[0].owner === wallet.toString() ? "Sold" : "Bought"
+            }
             const { accountKeys } = txn.transaction.message;
             const marketplaceAccount = accountKeys.at(-1).toString();
 
@@ -140,7 +117,11 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
         else {
             logger.info("Not an NFT transaction")
         }
+
+    } catch (e) {
+        logger.exceptions(e)
     }
+
 
 };
 
