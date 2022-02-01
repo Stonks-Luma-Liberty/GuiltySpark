@@ -119,7 +119,7 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
         }
 
     } catch (e) {
-        logger.exceptions(e)
+        logger.error(e)
     }
 
 
