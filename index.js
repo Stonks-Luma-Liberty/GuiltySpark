@@ -21,6 +21,7 @@ const myFormat = format.printf(({ level, message, timestamp }) => {
 export const logger = createLogger({
     format: format.combine(
         format.timestamp(),
+        format.errors({ stack: true }),
         myFormat),
     transports: [new transports.Console({})],
 });
