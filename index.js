@@ -5,7 +5,7 @@ import { Connection as MetaplexConnection, programs } from '@metaplex/js';
 import axios from 'axios';
 import { createLogger, format, transports } from 'winston';
 import { postSaleToDiscord } from './discord.js'
-
+import { marketPlaceURLs, marketPlaces } from './constants.js'
 dotenv.config()
 
 let wallets = []
@@ -26,12 +26,7 @@ export const logger = createLogger({
     transports: [new transports.Console({})],
 });
 
-const marketPlaces = {
-    "Magic Eden": ["MEisE1HzehtrDpAAT8PnLHjpSSkRYakotTuJRPjTpo8", "M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K"]
-}
-const marketPlaceURLs = {
-    "Magic Eden": "https://www.magiceden.io/item-details"
-}
+
 
 const { SOLANA_CLUSTER_ENDPOINT } = process.env
 const { metadata: { Metadata } } = programs;
@@ -83,7 +78,6 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
         logger.info(`Getting transaction signature: ${signature}`)
 
         const txn = await connection.getTransaction(signature);
-        const date = new Date(txn.blockTime * 1000).toLocaleString();
         const { preBalances, postBalances, postTokenBalances, preTokenBalances } = txn.meta;
         const price = Math.abs((preBalances[0] - postBalances[0])) / LAMPORTS_PER_SOL;
         const mintToken = postTokenBalances[0]?.mint
@@ -92,26 +86,26 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
             let tradeDirection = ""
 
             if (price < 0.009) {
-                tradeDirection = "Listed"
+                tradeDirection = "LISTING"
             }
             else {
-                tradeDirection = preTokenBalances[0].owner === wallet.toString() ? "Sold" : "Bought"
+                tradeDirection = preTokenBalances[0].owner === wallet.toString() ? "SELL" : "BUY"
             }
             const { accountKeys } = txn.transaction.message;
             const marketplaceAccount = accountKeys.at(-1).toString();
 
             for (const [key, value] of Object.entries(marketPlaces)) {
                 if (value.includes(marketplaceAccount)) {
-                    const marketPlaceURL = marketPlaceURLs[key]
+                    const marketPlaceURL = `${marketPlaceURLs[key]}/${mintToken}`;
                     const metadata = await getMetaData(mintToken);
-                    postSaleToDiscord(metadata.name, tradeDirection, price, date, signature, metadata.image)
-                    console.log("-------------------------------------------")
-                    console.log(`Sale at ${new Date(txn.blockTime * 1000).toLocaleString()} ---> ${tradeDirection} for ${price} SOL`)
-                    console.log("Signature: ", signature)
-                    console.log("Name: ", metadata.name)
-                    console.log("Image: ", metadata.image)
-                    console.log(`Marketplace: ${marketPlaceURL}/${mintToken}`)
-                    console.log("-------------------------------------------")
+                    const nftMeta = {
+                        name: metadata.name,
+                        tradeDirection: tradeDirection,
+                        price: price, image: metadata.image,
+                        transactionDate: txn.blockTime,
+                        marketPlaceURL: marketPlaceURL
+                    }
+                    postSaleToDiscord(nftMeta, signature)
                 }
             }
         }

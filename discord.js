@@ -1,14 +1,15 @@
 import axios from 'axios';
-import {logger} from './index.js';
+import { logger } from './index.js';
 
-export const postSaleToDiscord = (title, tradeDirection, price, date, signature, imageURL) => {
-    logger.info("Posting sale info to discord");
+export const postSaleToDiscord = (nftMeta, signature) => {
+    logger.info("Posting sale info to discord")
+    const { tradeDirection, name, marketPlaceURL, price, transactionDate, image } = nftMeta
     axios.post(process.env.DISCORD_WEBHOOK_URL,
         {
             "embeds": [
                 {
-                    "title": `Sale`,
-                    "description": `${tradeDirection}:  ${title}`,
+                    "title": `NFT ${tradeDirection}`,
+                    "description": `[${name}](${marketPlaceURL})`,
                     "fields": [
                         {
                             "name": "Price",
@@ -17,16 +18,16 @@ export const postSaleToDiscord = (title, tradeDirection, price, date, signature,
                         },
                         {
                             "name": "Date",
-                            "value": `${date}`,
+                            "value": `<t:${transactionDate}>`,
                             "inline": true
                         },
                         {
                             "name": "Explorer",
-                            "value": `https://explorer.solana.com/tx/${signature}`
+                            "value": `[SolScan](https://solscan.io/tx/${signature})`
                         }
                     ],
                     "image": {
-                        "url": `${imageURL}`,
+                        "url": `${image}`,
                     }
                 }
             ]
