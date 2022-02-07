@@ -102,7 +102,14 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
 
       for (const [key, value] of Object.entries(marketPlaces)) {
         if (value.includes(marketplaceAccount)) {
-          const marketPlaceURL = `${marketPlaceURLs[key]}/${mintToken}`;
+          let marketPlaceURL = marketPlaceURLs[key]
+
+          if (key === "Magic Eden") {
+            marketPlaceURL += `/${mintToken}`
+          }
+          else {
+            marketPlaceURL += `/?token=${mintToken}`
+          }
           const metadata = await getMetaData(mintToken);
           const nftMeta = {
             name: metadata.name,
