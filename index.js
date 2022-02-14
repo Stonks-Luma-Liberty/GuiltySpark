@@ -90,13 +90,6 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
 
     if (mintToken) {
       let tradeDirection = "";
-
-      if (price < 0.009) {
-        tradeDirection = preTokenBalances[0].owner === wallet.toString() ? "LISTING" : "DE-LISTING";
-      } else {
-        tradeDirection =
-          preTokenBalances[0].owner === wallet.toString() ? "SELL" : "BUY";
-      }
       const { accountKeys } = txn.transaction.message;
       const marketplaceAccount = accountKeys.at(-1).toString();
 
@@ -106,9 +99,17 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
 
           if (key === "Magic Eden") {
             marketPlaceURL += `/${mintToken}`
+            tradeDirection =
+              preTokenBalances[0].owner === wallet.toString() ? "SELL" : "BUY";
           }
           else {
             marketPlaceURL += `/?token=${mintToken}`
+            tradeDirection =
+              postTokenBalances[0].owner === wallet.toString() ? "BUY" : "SELL";
+          }
+
+          if (price < 0.009) {
+            tradeDirection = preTokenBalances[0].owner === wallet.toString() ? "LISTING" : "DE-LISTING";
           }
           const metadata = await getMetaData(mintToken);
           const nftMeta = {
