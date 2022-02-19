@@ -10,7 +10,16 @@ import { Connection as MetaplexConnection, programs } from "@metaplex/js";
 import axios from "axios";
 import { createLogger, format, transports } from "winston";
 import { postSaleToDiscord } from "./discord.js";
-import { marketPlaceURLs, marketPlaces } from "./constants.js";
+import {
+  programAccountUrls,
+  programAccounts,
+  SELL,
+  BUY,
+  LISTING,
+  DE_LISTING,
+  BURN,
+} from "./constants.js";
+import { fileURLToPath } from "url";
 dotenv.config();
 
 let wallets = [];
@@ -31,7 +40,7 @@ export const logger = createLogger({
   transports: [new transports.Console({})],
 });
 
-const { SOLANA_CLUSTER_ENDPOINT } = process.env;
+export const { SOLANA_CLUSTER_ENDPOINT } = process.env;
 const {
   metadata: { Metadata },
 } = programs;
@@ -91,26 +100,30 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
     if (mintToken) {
       let tradeDirection = "";
       const { accountKeys } = txn.transaction.message;
-      const marketplaceAccount = accountKeys.at(-1).toString();
+      const programAccount = accountKeys.at(-1).toString();
 
-      for (const [key, value] of Object.entries(marketPlaces)) {
-        if (value.includes(marketplaceAccount)) {
-          let marketPlaceURL = marketPlaceURLs[key]
+      for (const [key, value] of Object.entries(programAccounts)) {
+        if (value.includes(programAccount)) {
+          let programAccountUrl = programAccountUrls[key];
 
-          if (key === "Magic Eden") {
-            marketPlaceURL += `/${mintToken}`
+          if (key === "MortuaryInc") {
+            tradeDirection = BURN;
+            mintToken = preTokenBalances[1].mint;
+          } else if (price < 0.009) {
             tradeDirection =
-              preTokenBalances[0].owner === wallet.toString() ? "SELL" : "BUY";
-          }
-          else {
-            marketPlaceURL += `/?token=${mintToken}`
+              preTokenBalances[0].owner === wallet.toString()
+                ? LISTING
+                : DE_LISTING;
+          } else if (key === "Magic Eden") {
+            programAccountUrl += `/${mintToken}`;
             tradeDirection =
-              postTokenBalances[0].owner === wallet.toString() ? "BUY" : "SELL";
+              preTokenBalances[0].owner === wallet.toString() ? SELL : BUY;
+          } else {
+            programAccountUrl += `/?token=${mintToken}`;
+            tradeDirection =
+              postTokenBalances[0].owner === wallet.toString() ? BUY : SELL;
           }
 
-          if (price < 0.009) {
-            tradeDirection = preTokenBalances[0].owner === wallet.toString() ? "LISTING" : "DE-LISTING";
-          }
           const metadata = await getMetaData(mintToken);
           const nftMeta = {
             name: metadata.name,
@@ -118,7 +131,7 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
             price: price,
             image: metadata.image,
             transactionDate: txn.blockTime,
-            marketPlaceURL: marketPlaceURL,
+            marketPlaceURL: programAccountUrl,
           };
           postSaleToDiscord(nftMeta, signature);
         }
@@ -150,4 +163,7 @@ const runBot = async () => {
     );
   });
 };
-runBot();
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  runBot();
+}
