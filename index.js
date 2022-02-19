@@ -87,7 +87,7 @@ const onAccountChangeCallBack = async (accountInfo, context) => {
       }
     })?.transaction;
 
-    logger.info("Transaction found");
+    logger.info(`Transaction found: ${transaction}`);
     const signature = transaction.signatures[0];
     logger.info(`Getting transaction signature: ${signature}`);
 
