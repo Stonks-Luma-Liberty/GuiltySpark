@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Discord Solana NFT Monitor Bot",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "ts-node src/tests/test.ts"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,8 @@
     "@supabase/supabase-js": "^1.29.4",
     "axios": "^0.25.0",
     "dotenv": "^14.3.2",
-    "winston": "^3.5.0"
+    "winston": "^3.5.0",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
   }
 }
