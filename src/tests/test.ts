@@ -2,6 +2,7 @@ import {
   ConfirmedTransactionMeta,
   LAMPORTS_PER_SOL,
   PublicKey,
+  TokenBalance,
   TransactionResponse,
 } from "@solana/web3.js";
 import {
@@ -26,37 +27,37 @@ const runTest = async () => {
     const txn: TransactionResponse = (await connection.getTransaction(
       signature
     )) as TransactionResponse;
-    const { preBalances, postBalances, postTokenBalances, preTokenBalances } =
-      txn.meta as ConfirmedTransactionMeta;
+    const { preBalances, postBalances } = txn.meta as ConfirmedTransactionMeta;
+    const preTokenBalances = txn.meta?.preTokenBalances as Array<TokenBalance>;
+    const postTokenBalances = txn.meta
+      ?.postTokenBalances as Array<TokenBalance>;
     const price = Math.abs(preBalances[0] - postBalances[0]) / LAMPORTS_PER_SOL;
-    let mintToken = postTokenBalances![0]?.mint;
+    let mintToken = postTokenBalances[0]?.mint;
 
     if (mintToken) {
       let tradeDirection = "";
-      const { accountKeys } = txn.transaction.message;
-      const programAccount = accountKeys.at(-1)!.toString();
+      const accountKeys = txn.transaction.message.accountKeys as PublicKey[];
+      const programAccount = accountKeys.at(-1)?.toString() as string;
 
       for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
         if (value.includes(programAccount)) {
           let programAccountUrl = PROGRAM_ACCOUNT_URLS[key];
-          let walletString = wallet!.toString();
+          let walletString = wallet.toString();
 
           if (key === "MortuaryInc") {
             tradeDirection = BURN;
-            mintToken = preTokenBalances![1].mint;
+            mintToken = preTokenBalances[1].mint;
           } else if (price < 0.009) {
             tradeDirection =
-              preTokenBalances![0].owner === walletString
-                ? LISTING
-                : DE_LISTING;
+              preTokenBalances[0].owner === walletString ? LISTING : DE_LISTING;
           } else if (key === "Magic Eden") {
             programAccountUrl += `/${mintToken}`;
             tradeDirection =
-              preTokenBalances![0].owner === walletString ? SELL : BUY;
+              preTokenBalances[0].owner === walletString ? SELL : BUY;
           } else {
             programAccountUrl += `/?token=${mintToken}`;
             tradeDirection =
-              postTokenBalances![0].owner === walletString ? BUY : SELL;
+              postTokenBalances[0].owner === walletString ? BUY : SELL;
           }
 
           const metadata = await getMetaData(mintToken);
