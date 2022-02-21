@@ -3,7 +3,7 @@ services:
 
   guilty_spark_bot:
     build: .
-    command: node index.js
+    command: npm start
     volumes:
       - .:/guilty_spark_bot
       - /guilty_spark_bot/node_modules
