@@ -1,4 +1,3 @@
-import { programs, Connection as MetaplexConnection } from "@metaplex/js";
 import {
   AccountInfo,
   BlockResponse,
@@ -6,10 +5,10 @@ import {
   Context,
   LAMPORTS_PER_SOL,
   PublicKey,
+  TokenBalance,
   TransactionResponse,
 } from "@solana/web3.js";
 import { createClient } from "@supabase/supabase-js";
-import axios from "axios";
 import {
   BURN,
   BUY,
@@ -20,38 +19,12 @@ import {
   SELL,
 } from "./constants";
 import { postSaleToDiscord } from "./discord";
-import {
-  connection,
-  logger,
-  metaplexConnection,
-  SUPABASE_KEY,
-  SUPABASE_URL,
-} from "./settings";
+import { connection, logger, SUPABASE_KEY, SUPABASE_URL } from "./settings";
 import { NFTMetaType } from "./types";
 import { getMetaData } from "./utils";
 
 let wallets: string[] = [];
-export const supabase = createClient(SUPABASE_URL!, SUPABASE_KEY!);
-
-const runBot = async () => {
-  logger.info("Starting GuiltySpark bot");
-
-  let { data: walletmonitor, error } = await supabase
-    .from("walletmonitor")
-    .select("*");
-
-  walletmonitor!.forEach((item) => {
-    const { address } = item;
-    wallets.push(address);
-
-    logger.info(`Subscribing to account changes for ${address}`);
-    connection.onAccountChange(
-      new PublicKey(address),
-      onAccountChangeCallBack,
-      "confirmed"
-    );
-  });
-};
+export const supabase = createClient(SUPABASE_URL ?? "", SUPABASE_KEY ?? "");
 
 const onAccountChangeCallBack = async (
   accountInfo: AccountInfo<Buffer>,
@@ -81,21 +54,23 @@ const onAccountChangeCallBack = async (
     })?.transaction;
 
     logger.info(`Transaction found: ${transaction}`);
-    const signature: string = transaction!.signatures[0] as string;
+    const signature = transaction?.signatures[0] ?? "";
     logger.info(`Getting transaction signature: ${signature}`);
 
     const txn: TransactionResponse = (await connection.getTransaction(
       signature
     )) as TransactionResponse;
-    const { preBalances, postBalances, postTokenBalances, preTokenBalances } =
-      txn.meta as ConfirmedTransactionMeta;
+    const { preBalances, postBalances } = txn.meta as ConfirmedTransactionMeta;
+    const preTokenBalances = txn.meta?.preTokenBalances as Array<TokenBalance>;
+    const postTokenBalances = txn.meta
+      ?.postTokenBalances as Array<TokenBalance>;
     const price = Math.abs(preBalances[0] - postBalances[0]) / LAMPORTS_PER_SOL;
-    let mintToken: string = postTokenBalances![0]?.mint;
+    let mintToken = postTokenBalances[0]?.mint;
 
     if (mintToken) {
       let tradeDirection = "";
       const { accountKeys } = txn.transaction.message;
-      const programAccount: string = accountKeys.at(-1)!.toString();
+      const programAccount = accountKeys.at(-1)!.toString();
 
       for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
         if (value.includes(programAccount)) {
@@ -140,6 +115,26 @@ const onAccountChangeCallBack = async (
   }
 };
 
+const runBot = async () => {
+  logger.info("Starting GuiltySpark bot");
+
+  let { data: walletmonitor, error } = await supabase
+    .from("walletmonitor")
+    .select("*");
+
+  walletmonitor!.forEach((item) => {
+    const { address } = item;
+    wallets.push(address);
+
+    logger.info(`Subscribing to account changes for ${address}`);
+    connection.onAccountChange(
+      new PublicKey(address),
+      onAccountChangeCallBack,
+      "confirmed"
+    );
+  });
+};
+
 if (require.main) {
-  runBot();
+  void runBot();
 }

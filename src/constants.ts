@@ -21,8 +21,8 @@ export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
   MortuaryInc: "https://mortuary-inc.io",
 };
 
-export const BUY: string = "BUY 🛒";
-export const SELL: string = "SELL 💰";
-export const BURN: string = "BURN 🔥";
-export const LISTING: string = "LISTING 🛍️";
-export const DE_LISTING: string = "DE-LISTING 🏃";
+export const BUY = "BUY 🛒";
+export const SELL = "SELL 💰";
+export const BURN = "BURN 🔥";
+export const LISTING = "LISTING 🛍️";
+export const DE_LISTING = "DE-LISTING 🏃";

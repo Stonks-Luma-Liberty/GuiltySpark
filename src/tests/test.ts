@@ -20,7 +20,7 @@ import { getMetaData } from "../utils";
 
 const runTest = async () => {
   try {
-    let signature: string = "";
+    let signature = "";
     let wallet: PublicKey = new PublicKey("");
 
     const txn: TransactionResponse = (await connection.getTransaction(
@@ -29,12 +29,12 @@ const runTest = async () => {
     const { preBalances, postBalances, postTokenBalances, preTokenBalances } =
       txn.meta as ConfirmedTransactionMeta;
     const price = Math.abs(preBalances[0] - postBalances[0]) / LAMPORTS_PER_SOL;
-    let mintToken: string = postTokenBalances![0]?.mint;
+    let mintToken = postTokenBalances![0]?.mint;
 
     if (mintToken) {
       let tradeDirection = "";
       const { accountKeys } = txn.transaction.message;
-      const programAccount: string = accountKeys.at(-1)!.toString();
+      const programAccount = accountKeys.at(-1)!.toString();
 
       for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
         if (value.includes(programAccount)) {
@@ -80,5 +80,5 @@ const runTest = async () => {
 };
 
 if (require.main) {
-  runTest();
+  void runTest();
 }
