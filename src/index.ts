@@ -27,7 +27,7 @@ let wallets: string[] = [];
 export const supabase = createClient(SUPABASE_URL ?? "", SUPABASE_KEY ?? "");
 
 const onAccountChangeCallBack = async (
-  accountInfo: AccountInfo<Buffer>,
+  _accountInfo: AccountInfo<Buffer>,
   context: Context
 ) => {
   logger.info("Account change detected");
@@ -118,7 +118,7 @@ const onAccountChangeCallBack = async (
 const runBot = async () => {
   logger.info("Starting GuiltySpark bot");
 
-  let { data: walletmonitor, error } = await supabase
+  let { data: walletmonitor } = await supabase
     .from("walletmonitor")
     .select("*");
 
