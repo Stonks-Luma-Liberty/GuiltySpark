@@ -32,7 +32,7 @@ const onAccountChangeCallBack = async (
 ) => {
   logger.info("Account change detected");
   const { slot } = context;
-  let wallet: PublicKey | null = null;
+  let wallet: PublicKey = new PublicKey(PublicKey.default);
 
   try {
     logger.info(`Retrieving block in slot: ${slot}`);
@@ -69,30 +69,28 @@ const onAccountChangeCallBack = async (
 
     if (mintToken) {
       let tradeDirection = "";
-      const { accountKeys } = txn.transaction.message;
-      const programAccount = accountKeys.at(-1)!.toString();
+      const accountKeys = txn.transaction.message.accountKeys;
+      const programAccount = accountKeys.at(-1)?.toString() as string;
 
       for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
         if (value.includes(programAccount)) {
           let programAccountUrl = PROGRAM_ACCOUNT_URLS[key];
-          let walletString = wallet!.toString();
+          let walletString = wallet.toString() as string;
 
           if (key === "MortuaryInc") {
             tradeDirection = BURN;
-            mintToken = preTokenBalances![1].mint;
+            mintToken = preTokenBalances[1].mint;
           } else if (price < 0.009) {
             tradeDirection =
-              preTokenBalances![0].owner === walletString
-                ? LISTING
-                : DE_LISTING;
+              preTokenBalances[0].owner === walletString ? LISTING : DE_LISTING;
           } else if (key === "Magic Eden") {
             programAccountUrl += `/${mintToken}`;
             tradeDirection =
-              preTokenBalances![0].owner === walletString ? SELL : BUY;
+              preTokenBalances[0].owner === walletString ? SELL : BUY;
           } else {
             programAccountUrl += `/?token=${mintToken}`;
             tradeDirection =
-              postTokenBalances![0].owner === walletString ? BUY : SELL;
+              postTokenBalances[0].owner === walletString ? BUY : SELL;
           }
 
           const metadata = await getMetaData(mintToken);
@@ -122,7 +120,7 @@ const runBot = async () => {
     .from("walletmonitor")
     .select("*");
 
-  walletmonitor!.forEach((item) => {
+  walletmonitor?.forEach((item) => {
     const { address } = item;
     wallets.push(address);
 
