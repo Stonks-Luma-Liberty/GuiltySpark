@@ -98,7 +98,7 @@ const onAccountChangeCallBack = async (
           const metadata = await getMetaData(mintToken);
           const nftMeta: NFTMetaType = {
             name: metadata.name,
-            tradeDirection: tradeDirection,
+            tradeDirection,
             price: price,
             image: metadata.image,
             transactionDate: txn.blockTime as number,
