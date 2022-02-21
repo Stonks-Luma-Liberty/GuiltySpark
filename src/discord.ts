@@ -12,7 +12,7 @@ export const postSaleToDiscord = (nftMeta: NFTMetaType, signature: string) => {
     transactionDate,
     image,
   } = nftMeta;
-  axios.post(DISCORD_WEBHOOK_URL!, {
+  axios.post(DISCORD_WEBHOOK_URL as string, {
     embeds: [
       {
         title: `NFT ${tradeDirection}`,
