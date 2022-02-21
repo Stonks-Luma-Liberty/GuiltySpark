@@ -21,8 +21,8 @@ import { getMetaData } from "../utils";
 
 const runTest = async () => {
   try {
-    let signature = "";
-    let wallet: PublicKey = new PublicKey("");
+    const signature = "";
+    const wallet: PublicKey = new PublicKey("");
 
     const txn: TransactionResponse = (await connection.getTransaction(
       signature
@@ -42,7 +42,7 @@ const runTest = async () => {
       for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
         if (value.includes(programAccount)) {
           let programAccountUrl = PROGRAM_ACCOUNT_URLS[key];
-          let walletString = wallet.toString();
+          const walletString = wallet.toString();
 
           if (key === "MortuaryInc") {
             tradeDirection = BURN;

@@ -75,7 +75,7 @@ const onAccountChangeCallBack = async (
       for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
         if (value.includes(programAccount)) {
           let programAccountUrl = PROGRAM_ACCOUNT_URLS[key];
-          let walletString = wallet.toString() as string;
+          const walletString = wallet.toString() as string;
 
           if (key === "MortuaryInc") {
             tradeDirection = BURN;
