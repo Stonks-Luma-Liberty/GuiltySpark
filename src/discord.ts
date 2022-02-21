@@ -2,7 +2,10 @@ import axios from "axios";
 import { DISCORD_WEBHOOK_URL, logger } from "./settings";
 import { NFTMetaType } from "./types";
 
-export const postSaleToDiscord = (nftMeta: NFTMetaType, signature: string) => {
+export const postSaleToDiscord = (
+  nftMeta: NFTMetaType,
+  signature: string
+): void => {
   logger.info("Posting sale info to discord");
   const {
     tradeDirection,

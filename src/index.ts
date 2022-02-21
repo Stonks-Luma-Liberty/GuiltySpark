@@ -23,7 +23,7 @@ import { connection, logger, SUPABASE_KEY, SUPABASE_URL } from "./settings";
 import { NFTMetaType } from "./types";
 import { getMetaData } from "./utils";
 
-let wallets: string[] = [];
+const wallets: string[] = [];
 export const supabase = createClient(SUPABASE_URL ?? "", SUPABASE_KEY ?? "");
 
 const onAccountChangeCallBack = async (
@@ -36,7 +36,7 @@ const onAccountChangeCallBack = async (
 
   try {
     logger.info(`Retrieving block in slot: ${slot}`);
-    let block: BlockResponse = (await connection.getBlock(
+    const block: BlockResponse = (await connection.getBlock(
       slot
     )) as BlockResponse;
     const { transactions } = block;
@@ -44,7 +44,7 @@ const onAccountChangeCallBack = async (
     logger.info("Searching transactions");
     const transaction = transactions.find((item) => {
       const { accountKeys } = item.transaction.message;
-      let publicKey = accountKeys.find((publicKey) =>
+      const publicKey = accountKeys.find((publicKey) =>
         wallets.includes(publicKey.toString())
       );
       if (publicKey) {
@@ -116,7 +116,7 @@ const onAccountChangeCallBack = async (
 const runBot = async () => {
   logger.info("Starting GuiltySpark bot");
 
-  let { data: walletmonitor } = await supabase
+  const { data: walletmonitor } = await supabase
     .from("walletmonitor")
     .select("*");
 
