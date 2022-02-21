@@ -63,7 +63,7 @@ const runTest = async () => {
           const nftMeta: NFTMetaType = {
             name: metadata.name,
             tradeDirection: tradeDirection,
-            price: price,
+            price,
             image: metadata.image,
             transactionDate: txn.blockTime as number,
             marketPlaceURL: programAccountUrl,
