@@ -6,7 +6,23 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "ts-node src/tests/test.ts"
+    "test": "ts-node src/tests/test.ts",
+    "format": "remark . -o"
+  },
+  "remarkConfig": {
+    "settings": {
+      "bullet": "*"
+    },
+    "plugins": [
+      "remark-preset-lint-consistent",
+      "remark-preset-lint-recommended",
+      [
+        "remark-toc",
+        {
+          "heading": "contents"
+        }
+      ]
+    ]
   },
   "repository": {
     "type": "git",
@@ -24,8 +40,14 @@
     "@supabase/supabase-js": "^1.29.4",
     "axios": "^0.25.0",
     "dotenv": "^14.3.2",
-    "winston": "^3.5.0",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "winston": "^3.5.0"
+  },
+  "devDependencies": {
+    "remark-cli": "^10.0.1",
+    "remark-preset-lint-consistent": "^5.1.1",
+    "remark-preset-lint-recommended": "^6.1.2",
+    "remark-toc": "^8.0.1"
   }
 }
