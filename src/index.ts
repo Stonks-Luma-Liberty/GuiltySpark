@@ -9,6 +9,7 @@ import {
   TransactionResponse,
 } from "@solana/web3.js";
 import { createClient } from "@supabase/supabase-js";
+import { retryAsync } from "ts-retry";
 import {
   BURN,
   BUY,
@@ -26,6 +27,21 @@ import { getMetaData } from "./utils";
 const wallets: string[] = [];
 export const supabase = createClient(SUPABASE_URL ?? "", SUPABASE_KEY ?? "");
 
+/**
+ * Retrieves a processed block from the solana cluster
+ * @param slot Slot where block is located
+ * @returns Fetched block
+ */
+const retrieveBlock = async (slot: number): Promise<BlockResponse> => {
+  return await retryAsync(
+    async () => {
+      logger.info(`Attempting to retrieve block in slot: ${slot}`);
+      return (await connection.getBlock(slot)) as BlockResponse;
+    },
+    { delay: 300, maxTry: 3 }
+  );
+};
+
 const onAccountChangeCallBack = async (
   _accountInfo: AccountInfo<Buffer>,
   context: Context
@@ -35,10 +51,7 @@ const onAccountChangeCallBack = async (
   let wallet: PublicKey = new PublicKey(PublicKey.default);
 
   try {
-    logger.info(`Retrieving block in slot: ${slot}`);
-    const block: BlockResponse = (await connection.getBlock(
-      slot
-    )) as BlockResponse;
+    const block: BlockResponse = await retrieveBlock(slot);
     const { transactions } = block;
 
     logger.info("Searching transactions");
