@@ -1,5 +1,8 @@
 # GuiltySpark
-![Image](logo.png)
+<p align="center">
+  <img width="256" height="256" src="logo.png">
+</p>
+
 [![Github Issues](https://img.shields.io/github/issues/Stonks-Luma-Liberty/GuiltySpark?logo=github\&style=for-the-badge)](https://github.com/Stonks-Luma-Liberty/GuiltySpark/issues)
 [![Codacy Badge](https://img.shields.io/codacy/grade/8cd6dec921e64e1e938f66264610a0f9?logo=codacy\&style=for-the-badge)](https://www.codacy.com/gh/Stonks-Luma-Liberty/GuiltySpark/dashboard?utm_source=github.com\&utm_medium=referral\&utm_content=Stonks-Luma-Liberty/GuiltySpark\&utm_campaign=Badge_Grade)
 [![Github Top Language](https://img.shields.io/github/languages/top/Stonks-Luma-Liberty/GuiltySpark?style=for-the-badge)](https://www.typescriptlang.org)
