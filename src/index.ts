@@ -28,7 +28,7 @@ const wallets: string[] = []
 export const supabase = createClient(SUPABASE_URL ?? '', SUPABASE_KEY ?? '')
 
 /**
- * Retrieves a processed block from the solana cluster
+ * Retrieve a processed block from the solana cluster
  * @param slot Slot where block is located
  * @returns Fetched block
  */
