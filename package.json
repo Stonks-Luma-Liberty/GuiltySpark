@@ -1,54 +1,73 @@
 {
-  "name": "guiltyspark",
-  "version": "1.0.0",
-  "description": "Discord Solana NFT Monitor Bot",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "ts-node src/index.ts",
-    "test": "ts-node src/tests/test.ts",
-    "format": "remark . -o"
-  },
-  "remarkConfig": {
-    "settings": {
-      "bullet": "*"
+    "name": "guiltyspark",
+    "version": "1.0.0",
+    "description": "Discord Solana NFT Monitor Bot",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "ts-node src/index.ts",
+        "test": "ts-node src/tests/test.ts",
+        "format": "remark . -o",
+        "lint": "eslint './**/*.{ts,tsx}' --max-warnings 0",
+        "prepare": "husky install"
     },
-    "plugins": [
-      "remark-preset-lint-consistent",
-      "remark-preset-lint-recommended",
-      [
-        "remark-toc",
-        {
-          "heading": "contents"
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
         }
-      ]
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Stonks-Luma-Liberty/GuiltySpark.git"
-  },
-  "author": "Christian Perez Villanueva",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Stonks-Luma-Liberty/GuiltySpark/issues"
-  },
-  "homepage": "https://github.com/Stonks-Luma-Liberty/GuiltySpark#readme",
-  "dependencies": {
-    "@metaplex/js": "^4.12.0",
-    "@solana/web3.js": "^1.32.0",
-    "@supabase/supabase-js": "^1.29.4",
-    "axios": "^0.25.0",
-    "dotenv": "^14.3.2",
-    "ts-node": "^10.5.0",
-    "ts-retry": "^2.3.9",
-    "typescript": "^4.5.5",
-    "winston": "^3.5.0"
-  },
-  "devDependencies": {
-    "remark-cli": "^10.0.1",
-    "remark-preset-lint-consistent": "^5.1.1",
-    "remark-preset-lint-recommended": "^6.1.2",
-    "remark-toc": "^8.0.1"
-  }
+    },
+    "lint-staged": {
+        "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+            "prettier --write",
+            "yarn lint",
+            "git add"
+        ]
+    },
+    "remarkConfig": {
+        "settings": {
+            "bullet": "*"
+        },
+        "plugins": [
+            "remark-preset-lint-consistent",
+            "remark-preset-lint-recommended",
+            [
+                "remark-toc",
+                {
+                    "heading": "contents"
+                }
+            ]
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Stonks-Luma-Liberty/GuiltySpark.git"
+    },
+    "author": "Christian Perez Villanueva",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Stonks-Luma-Liberty/GuiltySpark/issues"
+    },
+    "homepage": "https://github.com/Stonks-Luma-Liberty/GuiltySpark#readme",
+    "dependencies": {
+        "@metaplex/js": "^4.12.0",
+        "@solana/web3.js": "^1.32.0",
+        "@supabase/supabase-js": "^1.29.4",
+        "axios": "^0.25.0",
+        "dotenv": "^14.3.2",
+        "ts-node": "^10.5.0",
+        "ts-retry": "^2.3.9",
+        "typescript": "^4.5.5",
+        "winston": "^3.5.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.12.0",
+        "eslint-config-prettier": "^8.5.0",
+        "husky": "^7.0.0",
+        "lint-staged": "^12.3.7",
+        "prettier": "^2.6.2",
+        "remark-cli": "^10.0.1",
+        "remark-preset-lint-consistent": "^5.1.1",
+        "remark-preset-lint-recommended": "^6.1.2",
+        "remark-toc": "^8.0.1"
+    }
 }
