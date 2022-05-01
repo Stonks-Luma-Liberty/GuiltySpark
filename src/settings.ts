@@ -1,4 +1,4 @@
-import { Cluster, clusterApiUrl, Connection } from '@solana/web3.js'
+import { Connection } from '@solana/web3.js'
 import dotenv from 'dotenv'
 import { Format } from 'logform'
 import { createLogger, format, Logger, transports } from 'winston'
