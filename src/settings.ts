@@ -22,13 +22,10 @@ export const logger: Logger = createLogger({
 export const { SUPABASE_URL } = process.env
 export const { SUPABASE_KEY } = process.env
 export const { DISCORD_WEBHOOK_URL } = process.env
-export const SOLANA_CLUSTER_ENDPOINT: Cluster = process.env
-    .SOLANA_CLUSTER_ENDPOINT as Cluster
+export const SOLANA_CLUSTER_ENDPOINT = process.env
+    .SOLANA_CLUSTER_ENDPOINT as string
 
-export const connection = new Connection(
-    clusterApiUrl(SOLANA_CLUSTER_ENDPOINT),
-    'confirmed'
-)
+export const connection = new Connection(SOLANA_CLUSTER_ENDPOINT, 'confirmed')
 export const metaplexConnection = new MetaplexConnection(
     SOLANA_CLUSTER_ENDPOINT
 )
