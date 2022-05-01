@@ -101,7 +101,7 @@ const onAccountChangeCallBack = async (
                             preTokenBalances[0].owner === walletString
                                 ? LISTING
                                 : DE_LISTING
-                    } else if (key === 'Magic Eden') {
+                    } else if (key === 'MagicEden') {
                         programAccountUrl += `/${mintToken}`
                         tradeDirection =
                             preTokenBalances[0].owner === walletString
