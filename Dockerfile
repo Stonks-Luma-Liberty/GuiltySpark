@@ -1,5 +1,5 @@
 FROM node:lts-alpine
-RUN npm install -g npm@latest && \
+RUN npm install -g npm@8.9.0 && \
     apk add --no-cache python3 make g++ && \
     addgroup -S guilty_spark_group && \
     adduser -S guilty_spark_user -G guilty_spark_group
