@@ -9,6 +9,8 @@ import {
     TransactionResponse,
 } from '@solana/web3.js'
 import { createClient } from '@supabase/supabase-js'
+import axios from 'axios'
+import { CoinGeckoClient } from 'coingecko-api-v3'
 import { retryAsync } from 'ts-retry'
 import {
     BURN,
@@ -26,6 +28,9 @@ import { getMetaData } from './utils'
 
 const wallets: string[] = []
 export const supabase = createClient(SUPABASE_URL ?? '', SUPABASE_KEY ?? '')
+export const coingeckoClient = new CoinGeckoClient({
+    autoRetry: true,
+})
 
 /**
  * Retrieve a processed block from the solana cluster
@@ -85,8 +90,13 @@ const onAccountChangeCallBack = async (
 
         if (mintToken) {
             let tradeDirection = ''
+            let solanaPrice = await coingeckoClient.simplePrice({
+                vs_currencies: 'usd',
+                ids: 'solana',
+            })
             const accountKeys = txn.transaction.message.accountKeys
             const programAccount = accountKeys.at(-1)?.toString() as string
+            let priceUSD = solanaPrice.solana.usd * price
 
             for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
                 if (value.includes(programAccount)) {
@@ -120,6 +130,7 @@ const onAccountChangeCallBack = async (
                         name: metadata.name,
                         tradeDirection,
                         price: price,
+                        priceUSD: priceUSD,
                         image: metadata.image,
                         transactionDate: txn.blockTime as number,
                         marketPlaceURL: programAccountUrl,
