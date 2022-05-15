@@ -9,7 +9,6 @@ import {
     TransactionResponse,
 } from '@solana/web3.js'
 import { createClient } from '@supabase/supabase-js'
-import axios from 'axios'
 import { CoinGeckoClient } from 'coingecko-api-v3'
 import { retryAsync } from 'ts-retry'
 import {
@@ -90,13 +89,13 @@ const onAccountChangeCallBack = async (
 
         if (mintToken) {
             let tradeDirection = ''
-            let solanaPrice = await coingeckoClient.simplePrice({
+            const solanaPrice = await coingeckoClient.simplePrice({
                 vs_currencies: 'usd',
                 ids: 'solana',
             })
             const accountKeys = txn.transaction.message.accountKeys
             const programAccount = accountKeys.at(-1)?.toString() as string
-            let priceUSD = solanaPrice.solana.usd * price
+            const priceUSD = solanaPrice.solana.usd * price
 
             for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
                 if (value.includes(programAccount)) {

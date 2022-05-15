@@ -40,13 +40,13 @@ const runTest = async () => {
 
         if (mintToken) {
             let tradeDirection = ''
-            let solanaPrice = await coingeckoClient.simplePrice({
+            const solanaPrice = await coingeckoClient.simplePrice({
                 vs_currencies: 'usd',
                 ids: 'solana',
             })
             const accountKeys = txn.transaction.message.accountKeys
             const programAccount = accountKeys.at(-1)?.toString() as string
-            let priceUSD = solanaPrice.solana.usd * price
+            const priceUSD = solanaPrice.solana.usd * price
 
             for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
                 if (value.includes(programAccount)) {
