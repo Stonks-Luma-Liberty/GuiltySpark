@@ -1,10 +1,13 @@
 FROM node:lts-alpine
-RUN npm install -g npm@8.9.0 && \
-    apk add --no-cache python3 make g++ && \
-    addgroup -S guilty_spark_group && \
-    adduser -S guilty_spark_user -G guilty_spark_group
-USER guilty_spark_user
+USER node
+
+RUN mkdir /home/node/.npm-global
+ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+
+RUN npm install npm@8.10.0 && \
+    apk add --no-cache python3 make g++
 WORKDIR /GuiltySpark
 COPY package.json .
-RUN npm install --quiet --unsafe-perm=true --allow-root
+RUN npm install --quiet 
 COPY . . 
