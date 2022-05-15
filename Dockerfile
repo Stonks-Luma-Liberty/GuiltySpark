@@ -6,5 +6,5 @@ RUN npm install -g npm@8.9.0 && \
 USER guilty_spark_user
 WORKDIR /GuiltySpark
 COPY package.json .
-RUN npm install --quiet
+RUN npm install --quiet --unsafe-perm=true --allow-root
 COPY . . 
