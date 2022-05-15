@@ -12,6 +12,7 @@ export const postSaleToDiscord = (
         name,
         marketPlaceURL,
         price,
+        priceUSD,
         transactionDate,
         image,
     } = nftMeta
@@ -23,13 +24,13 @@ export const postSaleToDiscord = (
                 fields: [
                     {
                         name: 'Price',
-                        value: `${price} SOL`,
-                        inline: true,
+                        value: `${price} SOL (\`$${priceUSD}\`)`,
+                        inline: false,
                     },
                     {
                         name: 'Date',
                         value: `<t:${transactionDate}>`,
-                        inline: true,
+                        inline: false,
                     },
                     {
                         name: 'Explorer',

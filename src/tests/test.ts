@@ -5,6 +5,7 @@ import {
     TokenBalance,
     TransactionResponse,
 } from '@solana/web3.js'
+import { coingeckoClient } from '..'
 import {
     BURN,
     BUY,
@@ -39,14 +40,18 @@ const runTest = async () => {
 
         if (mintToken) {
             let tradeDirection = ''
-            const accountKeys = txn.transaction.message
-                .accountKeys as PublicKey[]
+            const solanaPrice = await coingeckoClient.simplePrice({
+                vs_currencies: 'usd',
+                ids: 'solana',
+            })
+            const accountKeys = txn.transaction.message.accountKeys
             const programAccount = accountKeys.at(-1)?.toString() as string
+            const priceUSD = solanaPrice.solana.usd * price
 
             for (const [key, value] of Object.entries(PROGRAM_ACCOUNTS)) {
                 if (value.includes(programAccount)) {
-                    let programAccountUrl = PROGRAM_ACCOUNT_URLS[key]
-                    const walletString = wallet.toString()
+                    let programAccountUrl = PROGRAM_ACCOUNT_URLS[key] || ''
+                    const walletString = wallet.toString() as string
 
                     if (key === 'MortuaryInc') {
                         tradeDirection = BURN
@@ -73,8 +78,9 @@ const runTest = async () => {
                     const metadata = await getMetaData(mintToken)
                     const nftMeta: NFTMetaType = {
                         name: metadata.name,
-                        tradeDirection: tradeDirection,
-                        price,
+                        tradeDirection,
+                        price: price,
+                        priceUSD: priceUSD,
                         image: metadata.image,
                         transactionDate: txn.blockTime as number,
                         marketPlaceURL: programAccountUrl,
