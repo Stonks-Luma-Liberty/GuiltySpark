@@ -3,6 +3,7 @@ services:
 
   guilty_spark_bot:
     build: .
+    user: "node"
     command: npm start
     volumes:
       - .:/guilty_spark_bot
