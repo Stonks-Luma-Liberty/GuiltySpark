@@ -6,7 +6,6 @@ services:
     user: "node"
     command: npm start
     volumes:
-      - .:/guilty_spark_bot
-      - /guilty_spark_bot/node_modules
+      - ./:/home/node/app
     ports:
-      - 3000:3000
+      - "3000:3000"
