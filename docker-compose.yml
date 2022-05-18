@@ -3,7 +3,7 @@ services:
 
   guilty_spark_bot:
     build: .
-    user: "node"
+    user: node
     command: npm start
     volumes:
       - ./:/home/node/app
