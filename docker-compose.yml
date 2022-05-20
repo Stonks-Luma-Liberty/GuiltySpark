@@ -7,5 +7,7 @@ services:
     command: npm start
     volumes:
       - ./:/home/node/app
+    environment:
+      - NPM_CONFIG_PREFIX=/home/node/.npm-global
     ports:
       - "3000:3000"

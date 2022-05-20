@@ -83,6 +83,7 @@ const onAccountChangeCallBack = async (
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
+
         const price =
             Math.abs(preBalances[0] - postBalances[0]) / LAMPORTS_PER_SOL
         let mintToken = postTokenBalances[0]?.mint
@@ -105,11 +106,6 @@ const onAccountChangeCallBack = async (
                     if (key === 'MortuaryInc') {
                         tradeDirection = BURN
                         mintToken = preTokenBalances[1].mint
-                    } else if (price < 0.009) {
-                        tradeDirection =
-                            preTokenBalances[0].owner === walletString
-                                ? LISTING
-                                : DE_LISTING
                     } else if (key === 'MagicEden') {
                         programAccountUrl += `/${mintToken}`
                         tradeDirection =
@@ -122,6 +118,13 @@ const onAccountChangeCallBack = async (
                             postTokenBalances[0].owner === walletString
                                 ? BUY
                                 : SELL
+                    }
+
+                    if (price < 0.009) {
+                        tradeDirection =
+                            preTokenBalances[0].owner === walletString
+                                ? LISTING
+                                : DE_LISTING
                     }
 
                     const metadata = await getMetaData(mintToken)
