@@ -56,11 +56,6 @@ const runTest = async () => {
                     if (key === 'MortuaryInc') {
                         tradeDirection = BURN
                         mintToken = preTokenBalances[1].mint
-                    } else if (price < 0.009) {
-                        tradeDirection =
-                            preTokenBalances[0].owner === walletString
-                                ? LISTING
-                                : DE_LISTING
                     } else if (key === 'MagicEden') {
                         programAccountUrl += `/${mintToken}`
                         tradeDirection =
@@ -73,6 +68,13 @@ const runTest = async () => {
                             postTokenBalances[0].owner === walletString
                                 ? BUY
                                 : SELL
+                    }
+
+                    if (price < 0.009) {
+                        tradeDirection =
+                            preTokenBalances[0].owner === walletString
+                                ? LISTING
+                                : DE_LISTING
                     }
 
                     const metadata = await getMetaData(mintToken)
