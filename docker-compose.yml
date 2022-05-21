@@ -4,7 +4,7 @@ services:
   guilty_spark_bot:
     build: .
     user: node
-    command: npm start
+    command: npm run start
     volumes:
       - ./:/home/node/app
     environment:

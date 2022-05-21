@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "start": "node src/index.js",
+        "start": "tsc && node src/index.js",
         "dev": "ts-node src/index.ts",
         "test": "ts-node src/tests/test.ts",
         "format": "remark . -o",
