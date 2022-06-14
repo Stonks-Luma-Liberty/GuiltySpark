@@ -3,6 +3,7 @@ services:
 
   guilty_spark_bot:
     build: .
+    restart: unless-stopped
     user: node
     command: npm run start
     volumes:
