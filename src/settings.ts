@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { Format } from 'logform'
 import { createLogger, format, Logger, transports } from 'winston'
 import { Connection as MetaplexConnection } from '@metaplex/js'
+import { CoinGeckoClient } from 'coingecko-api-v3'
 
 dotenv.config()
 
@@ -29,3 +30,6 @@ export const connection = new Connection(SOLANA_CLUSTER_ENDPOINT, 'confirmed')
 export const metaplexConnection = new MetaplexConnection(
     SOLANA_CLUSTER_ENDPOINT
 )
+export const coingeckoClient = new CoinGeckoClient({
+    autoRetry: true,
+})

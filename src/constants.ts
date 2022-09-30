@@ -13,12 +13,14 @@ export const PROGRAM_ACCOUNTS: ProgramAccountType = {
     ],
     Solanart: ['CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz'],
     MortuaryInc: ['minc9MLymfBSEs9ho1pUaXbQQPdfnTnxUvJa8TWx85E'],
+    Yawww: ['5SKmrbAxnHV2sgqyDXkGrLrokZYtWWVEEk5Soed7VLVN'],
 }
 
 export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
     MagicEden: 'https://www.magiceden.io/item-details',
     Solanart: 'https://solanart.io/search',
     MortuaryInc: 'https://mortuary-inc.io',
+    Yawww: 'https://www.yawww.io/marketplace/listing',
 }
 
 export const BUY = 'BUY 🛒'
@@ -26,3 +28,4 @@ export const SELL = 'SELL 💰'
 export const BURN = 'BURN 🔥'
 export const LISTING = 'LISTING 🛍️'
 export const DE_LISTING = 'DE-LISTING 🏃'
+export const MAX_SUPPORTED_TRANSACTION_VERSION = 2
