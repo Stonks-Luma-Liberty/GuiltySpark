@@ -1,7 +1,12 @@
-import { ConfirmedTransactionMeta, LAMPORTS_PER_SOL, PublicKey, TokenBalance } from "@solana/web3.js"
-import { BUY, LISTING, SELL } from "../constants"
-import { connection } from "../settings"
-import { inferMarketPlace, inferTradeDirection } from "../utils"
+import {
+    ConfirmedTransactionMeta,
+    LAMPORTS_PER_SOL,
+    PublicKey,
+    TokenBalance,
+} from '@solana/web3.js'
+import { BUY, LISTING, SELL } from '../constants'
+import { connection } from '../settings'
+import { inferMarketPlace, inferTradeDirection } from '../utils'
 
 describe('Yawww module', () => {
     test('infers transaction is a listing on yawww', async () => {
