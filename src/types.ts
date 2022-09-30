@@ -7,3 +7,8 @@ export type NFTMetaType = {
     transactionDate: number
     marketPlaceURL: string
 }
+
+export interface MarketPlace {
+    name: string
+    url: string
+}
