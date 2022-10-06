@@ -73,6 +73,6 @@
         "remark-preset-lint-consistent": "5.1.1",
         "remark-preset-lint-recommended": "6.1.2",
         "remark-toc": "8.0.1",
-        "ts-jest": "29.0.2"
+        "ts-jest": "29.0.3"
     }
 }
