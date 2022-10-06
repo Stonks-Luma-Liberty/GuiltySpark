@@ -57,7 +57,7 @@
         "coingecko-api-v3": "^0.0.13",
         "dotenv": "^14.3.2",
         "ts-node": "^10.5.0",
-        "ts-retry": "^2.3.9",
+        "ts-retry": "^3.0.0",
         "typescript": "^4.5.5",
         "winston": "^3.5.0"
     },
