@@ -1,4 +1,4 @@
-FROM node:16.15.0-bullseye-slim
+FROM node:18.10.0-bullseye-slim
 WORKDIR /GuiltySpark
 RUN npm install -g npm@8.13.2
 COPY . .
