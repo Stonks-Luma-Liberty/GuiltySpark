@@ -100,7 +100,7 @@ const onAccountChangeCallBack = async (
             logger.info(`Marketplace: ${marketPlace}`)
 
             if (marketPlace) {
-                tradeDirection = await inferTradeDirection(
+                tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
                     preTokenBalances || [],

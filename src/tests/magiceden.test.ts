@@ -23,7 +23,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -31,7 +31,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
-                tradeDirection = await inferTradeDirection(
+                tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
                     preTokenBalances || [],
@@ -56,7 +56,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -64,7 +64,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
-                tradeDirection = await inferTradeDirection(
+                tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
                     preTokenBalances || [],
@@ -89,7 +89,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -97,7 +97,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
-                tradeDirection = await inferTradeDirection(
+                tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
                     preTokenBalances || [],
@@ -122,7 +122,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -130,7 +130,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
-                tradeDirection = await inferTradeDirection(
+                tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
                     preTokenBalances || [],

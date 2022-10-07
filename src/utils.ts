@@ -71,7 +71,7 @@ export const inferMarketPlace = async (
  * @param {TokenBalance[]} postTokenBalances - [{
  * @returns a string.
  */
-export const inferTradeDirection = async (
+export const inferTradeDirection = (
     wallet: string,
     logMessages: string[],
     preTokenBalances: TokenBalance[],
@@ -86,8 +86,10 @@ export const inferTradeDirection = async (
         )
     )
     const isDelistingInstruction = Boolean(
-        logMessages.find((message) =>
-            message.includes('Instruction: CancelSell')
+        logMessages.find(
+            (message) =>
+                message.includes('Instruction: CancelSell') ||
+                message.includes('Instruction: Cancel listing')
         )
     )
     const isBuyInstruction = Boolean(
