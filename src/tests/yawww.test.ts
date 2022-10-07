@@ -57,7 +57,7 @@ describe('Yawww module', () => {
             maxSupportedTransactionVersion: 2,
         })
 
-        if (txn == null) {
+        if (txn === null) {
             throw new Error('Captured transaction is null')
         }
 
