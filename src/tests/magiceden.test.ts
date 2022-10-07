@@ -23,7 +23,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -56,7 +56,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -89,7 +89,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -122,7 +122,7 @@ describe('MagicEden module', () => {
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys

@@ -1,9 +1,4 @@
-import {
-    ConfirmedTransactionMeta,
-    LAMPORTS_PER_SOL,
-    PublicKey,
-    TokenBalance,
-} from '@solana/web3.js'
+import { PublicKey, TokenBalance } from '@solana/web3.js'
 import { DE_LISTING, LISTING } from '../constants'
 import { connection } from '../settings'
 import { inferMarketPlace, inferTradeDirection } from '../utils'
@@ -26,15 +21,11 @@ describe('Yawww module', () => {
             throw new Error('Captured transaction is null')
         }
 
-        const { preBalances, postBalances } =
-            txn.meta as ConfirmedTransactionMeta
         const preTokenBalances = txn.meta
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        const price =
-            Math.abs(preBalances[0] - postBalances[0]) / LAMPORTS_PER_SOL
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
@@ -70,15 +61,11 @@ describe('Yawww module', () => {
             throw new Error('Captured transaction is null')
         }
 
-        const { preBalances, postBalances } =
-            txn.meta as ConfirmedTransactionMeta
         const preTokenBalances = txn.meta
             ?.preTokenBalances as Array<TokenBalance>
         const postTokenBalances = txn.meta
             ?.postTokenBalances as Array<TokenBalance>
-        const price =
-            Math.abs(preBalances[0] - postBalances[0]) / LAMPORTS_PER_SOL
-        let mintToken = postTokenBalances[0]?.mint
+        const mintToken = postTokenBalances[0]?.mint
 
         if (mintToken) {
             const accountKeys = txn.transaction.message.staticAccountKeys
