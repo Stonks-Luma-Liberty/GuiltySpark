@@ -11,7 +11,7 @@ export const PROGRAM_ACCOUNTS: ProgramAccountType = {
         'MEisE1HzehtrDpAAT8PnLHjpSSkRYakotTuJRPjTpo8',
         'M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K',
     ],
-    Solanart: ['CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz'],
+    Solanart: ['CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz', 'hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk'],
     MortuaryInc: ['minc9MLymfBSEs9ho1pUaXbQQPdfnTnxUvJa8TWx85E'],
     Yawww: ['5SKmrbAxnHV2sgqyDXkGrLrokZYtWWVEEk5Soed7VLVN'],
 }
