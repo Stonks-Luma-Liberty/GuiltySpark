@@ -86,8 +86,10 @@ export const inferTradeDirection = async (
         )
     )
     const isDelistingInstruction = Boolean(
-        logMessages.find((message) =>
-            message.includes('Instruction: CancelSell')
+        logMessages.find(
+            (message) =>
+                message.includes('Instruction: CancelSell') ||
+                message.includes('Instruction: Cancel listing')
         )
     )
     const isBuyInstruction = Boolean(
