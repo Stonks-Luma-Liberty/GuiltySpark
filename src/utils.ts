@@ -71,7 +71,7 @@ export const inferMarketPlace = async (
  * @param {TokenBalance[]} postTokenBalances - [{
  * @returns a string.
  */
-export const inferTradeDirection = async (
+export const inferTradeDirection = (
     wallet: string,
     logMessages: string[],
     preTokenBalances: TokenBalance[],
