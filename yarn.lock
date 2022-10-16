@@ -4705,10 +4705,10 @@ ts-node@^10.5.0:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
-ts-retry@^3.0.0:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/ts-retry/-/ts-retry-3.1.2.tgz#0f2dd5cf86c65300af0937aa0276f85a13b2c241"
-  integrity sha512-U8NVepyvzA62yfLzsqla2/cSEVG8Q9AWirbGfyE2x18Fl7oGggHV39xBYrbsl+vkfwQ2f3ZzskUUJvrXH/rgFA==
+ts-retry@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ts-retry/-/ts-retry-4.0.0.tgz#7e53f3401efe9f7bab73771a5873d887a5217cb0"
+  integrity sha512-lGDwnJ661h1wz5S3y5sLrpQNyRXanfU0IFI3ufNWliO2hRrdjfiYW1iJqqyZhebcnE+q5LRFeKX/5dhX0PYKSw==
 
 tslib@^2.1.0:
   version "2.4.0"
