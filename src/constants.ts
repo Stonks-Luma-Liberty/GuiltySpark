@@ -17,6 +17,7 @@ export const PROGRAM_ACCOUNTS: ProgramAccountType = {
     ],
     MortuaryInc: ['minc9MLymfBSEs9ho1pUaXbQQPdfnTnxUvJa8TWx85E'],
     Yawww: ['5SKmrbAxnHV2sgqyDXkGrLrokZYtWWVEEk5Soed7VLVN'],
+    OpenSea: ["hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk"]
 }
 
 export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
