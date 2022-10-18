@@ -17,6 +17,7 @@ export const PROGRAM_ACCOUNTS: ProgramAccountType = {
     ],
     MortuaryInc: ['minc9MLymfBSEs9ho1pUaXbQQPdfnTnxUvJa8TWx85E'],
     Yawww: ['5SKmrbAxnHV2sgqyDXkGrLrokZYtWWVEEk5Soed7VLVN'],
+    Hyperspace: ['HYPERfwdTjyJ2SCaKHmpF2MtrXqWxrsotYDsTrshHWq8'],
 }
 
 export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
@@ -24,6 +25,7 @@ export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
     Solanart: 'https://solanart.io/search',
     MortuaryInc: 'https://mortuary-inc.io',
     Yawww: 'https://www.yawww.io/marketplace/listing',
+    Hyperspace: 'https://hyperspace.xyz/token',
 }
 
 export const BUY = 'BUY 🛒'
@@ -31,4 +33,4 @@ export const SELL = 'SELL 💰'
 export const BURN = 'BURN 🔥'
 export const LISTING = 'LISTING 🛍️'
 export const DE_LISTING = 'DE-LISTING 🏃'
-export const MAX_SUPPORTED_TRANSACTION_VERSION = 2
+export const MAX_SUPPORTED_TRANSACTION_VERSION = 0
