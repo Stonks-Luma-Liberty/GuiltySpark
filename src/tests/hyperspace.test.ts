@@ -1,5 +1,5 @@
 import { PublicKey, TokenBalance } from '@solana/web3.js'
-import { BUY, SELL, LISTING, DE_LISTING } from '../constants'
+import { LISTING } from '../constants'
 import { connection } from '../settings'
 import {
     fetchTransaction,
