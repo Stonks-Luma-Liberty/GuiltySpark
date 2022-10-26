@@ -89,7 +89,8 @@ export const inferTradeDirection = (
         logMessages.find(
             (message) =>
                 message.includes('Instruction: CancelSell') ||
-                message.includes('Instruction: Cancel listing')
+                message.includes('Instruction: Cancel listing') ||
+                message.includes('Instruction: Cancel')
         )
     )
     const isBuyInstruction = Boolean(
