@@ -30,6 +30,7 @@ describe('Hyperspace module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('Hyperspace')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
@@ -63,6 +64,7 @@ describe('Hyperspace module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('Hyperspace')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],

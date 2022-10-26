@@ -31,6 +31,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('MagicEden')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
@@ -64,6 +65,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('MagicEden')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
@@ -97,6 +99,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('MagicEden')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
@@ -130,6 +133,7 @@ describe('MagicEden module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('MagicEden')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
