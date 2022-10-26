@@ -18,6 +18,7 @@ export const PROGRAM_ACCOUNTS: ProgramAccountType = {
     MortuaryInc: ['minc9MLymfBSEs9ho1pUaXbQQPdfnTnxUvJa8TWx85E'],
     Yawww: ['5SKmrbAxnHV2sgqyDXkGrLrokZYtWWVEEk5Soed7VLVN'],
     Hyperspace: ['HYPERfwdTjyJ2SCaKHmpF2MtrXqWxrsotYDsTrshHWq8'],
+    CoralCube: ['6U2LkBQ6Bqd1VFt7H76343vpSwS5Tb1rNyXSNnjkf9VL'],
 }
 
 export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
@@ -26,6 +27,7 @@ export const PROGRAM_ACCOUNT_URLS: ProgramAccountUrlType = {
     MortuaryInc: 'https://mortuary-inc.io',
     Yawww: 'https://www.yawww.io/marketplace/listing',
     Hyperspace: 'https://hyperspace.xyz/token',
+    CoralCube: 'https://coralcube.io/detail',
 }
 
 export const BUY = 'BUY 🛒'

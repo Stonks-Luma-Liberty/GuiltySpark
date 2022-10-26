@@ -33,6 +33,7 @@ describe('Yawww module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('Yawww')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
@@ -73,6 +74,7 @@ describe('Yawww module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
+                expect(marketPlace.name).toBe('Yawww')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],

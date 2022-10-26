@@ -1,25 +1,22 @@
 import { PublicKey, TokenBalance } from '@solana/web3.js'
 import { LISTING } from '../constants'
 import { connection } from '../settings'
-import { inferMarketPlace, inferTradeDirection } from '../utils'
+import {
+    fetchTransaction,
+    inferMarketPlace,
+    inferTradeDirection,
+} from '../utils'
 
-describe('Solanart module', () => {
-    test('infers transaction is a listing on solanart', async () => {
+describe('CoralCube module', () => {
+    test('infers transaction is a listing on coral cube', async () => {
         let tradeDirection = ''
         const signature =
-            'aJZt4c9Rjde8aj3AByeoDvixCLGnc5mE82PqtuRDAZPeNqCMrPJvQZUjAiiYNKwfjf7fKSSH6CDeJSWnB4QzMP7'
+            '3UfMKc4yVM9ATQYh3YrJ8aeYby7CTFLYHpN6dyNzvQDKgWcNUq9LGvVH1ZbEpizwL8WeychxkHxmFNKc16mpbBRo'
         const wallet: PublicKey = new PublicKey(
             '9ixrBE3dkqCqKSPz59fy6ApGsBEwGCa8pF45agPR6CgK'
         )
 
-        const txn = await connection.getTransaction(signature, {
-            commitment: 'finalized',
-            maxSupportedTransactionVersion: 2,
-        })
-
-        if (txn === null) {
-            throw new Error('Captured transaction is null')
-        }
+        const txn = await fetchTransaction(connection, signature)
 
         const preTokenBalances = txn.meta
             ?.preTokenBalances as Array<TokenBalance>
@@ -33,7 +30,7 @@ describe('Solanart module', () => {
             const marketPlace = await inferMarketPlace(accountKeys)
 
             if (marketPlace) {
-                expect(marketPlace.name).toBe('Solanart')
+                expect(marketPlace.name).toBe('CoralCube')
                 tradeDirection = inferTradeDirection(
                     wallet.toString(),
                     txn.meta?.logMessages || [],
