@@ -54,7 +54,7 @@
         "@solana/web3.js": "^1.32.0",
         "@supabase/supabase-js": "^2.0.0",
         "axios": "^1.0.0",
-        "coingecko-api-v3": "^0.0.13",
+        "coingecko-api-v3": "^0.0.15",
         "dotenv": "^16.0.0",
         "ts-node": "^10.5.0",
         "ts-retry": "^3.0.0",
